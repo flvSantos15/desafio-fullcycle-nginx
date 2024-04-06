@@ -2,6 +2,20 @@
 
 ## Como a rodar a imagem docker
 
+Clone o projeto:
+
 ```
-docker run --name flvsantos flvsantos/nginx-node
+git clone git@github.com:flvSantos15/desafio-fullcycle-nginx.git
+```
+
+Entre na pasta:
+
+```
+cd desafio-fullcycle-nginx
+```
+
+Rode o comando:
+
+```
+docker-compose up -d
 ```
