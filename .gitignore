@@ -1,0 +1,4 @@
+/mysql/
+/mysql/*
+/node/node_modules
+*.log

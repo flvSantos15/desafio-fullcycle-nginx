@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx
+    # image: flvsantos/nginx:prod
+    # restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - node-network
+    tty: true
+    depends_on:
+      - node
+
+  node:
+    build:
+      context: node
+    container_name: node
+    # image: flvsantos/node:prod
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 300s node index.js
+    ports:
+      - "3000:3000"
+    networks:
+      - node-network
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - node-network
+
+networks:
+  node-network:
+    driver: bridge
